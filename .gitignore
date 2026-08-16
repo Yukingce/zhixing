@@ -11,4 +11,8 @@ wheels/
 .claude
 .pytest_cache
 .env
+
+
 docs
+docker-data/
+data/vectorstore/
