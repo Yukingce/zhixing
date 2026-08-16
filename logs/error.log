@@ -1,0 +1,687 @@
+2026-08-15 23:47:15.769 | ERROR    | app.api.v1.chat:generate_sse_stream:120 - ❌ SSE 流式对话错误
+Traceback (most recent call last):
+
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+
+  File "F:\Projects_code\zhixing\app\run.py", line 34, in <module>
+    loop.run_until_complete(server.serve())
+
+  File "D:\python313\Lib\asyncio\base_events.py", line 712, in run_until_complete
+    self.run_forever()
+  File "D:\python313\Lib\asyncio\base_events.py", line 683, in run_forever
+    self._run_once()
+  File "D:\python313\Lib\asyncio\base_events.py", line 2040, in _run_once
+    handle._run()
+  File "D:\python313\Lib\asyncio\events.py", line 89, in _run
+    self._context.run(self._callback, *self._args)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\anyio\_core\_tasks.py", line 275, in _run_coro
+    retval = await self._coro
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\starlette\responses.py", line 273, in wrap
+    await func()
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\starlette\responses.py", line 253, in stream_response
+    async for chunk in self.body_iterator:
+
+> File "F:\Projects_code\zhixing\app\api\v1\chat.py", line 76, in generate_sse_stream
+    async for event in agent.astream_events(
+
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 1516, in astream_events
+    async for event in event_stream:
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langchain_core\tracers\event_stream.py", line 1100, in _astream_events_implementation_v2
+    await task
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langchain_core\tracers\event_stream.py", line 1055, in consume_astream
+    async for _ in event_streamer.tap_output_aiter(run_id, stream):
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langchain_core\tracers\event_stream.py", line 199, in tap_output_aiter
+    first = await anext(output, sentinel)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langgraph\pregel\main.py", line 2971, in astream
+    async for _ in runner.atick(
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langgraph\pregel\_runner.py", line 304, in atick
+    await arun_with_retry(
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langgraph\pregel\_retry.py", line 132, in arun_with_retry
+    async for _ in task.proc.astream(task.input, config):
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langgraph\_internal\_runnable.py", line 839, in astream
+    output = await asyncio.create_task(
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langgraph\_internal\_runnable.py", line 904, in _consume_aiter
+    async for chunk in it:
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langchain_core\tracers\event_stream.py", line 199, in tap_output_aiter
+    first = await anext(output, sentinel)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 1589, in atransform
+    async for ichunk in input:
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 1589, in atransform
+    async for ichunk in input:
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 1170, in astream
+    yield await self.ainvoke(input, config, **kwargs)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langgraph\_internal\_runnable.py", line 473, in ainvoke
+    ret = await self.afunc(*args, **kwargs)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langchain\agents\factory.py", line 1189, in amodel_node
+    response = await awrap_model_call_handler(request, _execute_model_async)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langchain\agents\factory.py", line 231, in normalized_single
+    result = await single_handler(request, handler)
+
+  File "F:\Projects_code\zhixing\app\core\middleware.py", line 119, in awrap_model_call
+    return await handler(modified_request) # 把当前 ModelRequest 继续交给后续调用链执行”的函数。
+
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langchain\agents\factory.py", line 1152, in _execute_model_async
+    model_, effective_response_format = _get_bound_model(request)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langchain\agents\factory.py", line 1019, in _get_bound_model
+    raise ValueError(msg)
+
+ValueError: Middleware returned unknown tool names: ['update_travel_style_tool', 'update_dietary_restriction_tool', 'update_food_preference_tool', 'add_travel_record_tool']
+
+Available client-side tools: ['check_current_progress', 'generate_itinerary_tool', 'generate_order_tool', 'get-current-date', 'get-interline-tickets', 'get-station-by-telecode', 'get-station-code-by-names', 'get-station-code-of-citys', 'get-stations-code-in-city', 'get-tickets', 'get-train-route-stations', 'getHotelDetail', 'getHotelSearchTags', 'get_weather_forecast', 'go_back_to_accommodation', 'go_back_to_budget', 'go_back_to_destination', 'go_back_to_food', 'go_back_to_itinerary', 'go_back_to_requirement', 'go_back_to_step', 'go_back_to_transport', 'maps_around_search', 'maps_direction_bicycling', 'maps_direction_driving', 'maps_direction_transit_integrated', 'maps_direction_walking', 'maps_distance', 'maps_geo', 'maps_ip_location', 'maps_regeocode', 'maps_schema_navi', 'maps_schema_personal_map', 'maps_schema_take_taxi', 'maps_search_detail', 'maps_text_search', 'maps_weather', 'query_destination_info', 'query_transport_options', 'record_requirement_tool', 'searchHotels', 'search_accommodation_info', 'search_destination_guide', 'search_food_recommendations', 'search_travel_info', 'search_travel_tips', 'select_accommodation_tool', 'select_destination_tool', 'select_food_tool', 'select_transport_tool', 'summarize_budget_tool']
+
+To fix this issue:
+1. Ensure the tools are passed to create_agent() via the 'tools' parameter
+2. If using custom middleware with tools, ensure they're registered via middleware.tools attribute
+3. Verify that tool names in ModelRequest.tools match the actual tool.name values
+Note: Built-in provider tools (dict format) can be added dynamically.
+During task with name 'model' and id 'd467c132-ab84-20cd-b3c2-2ac500779e5f'
+2026-08-15 23:50:06.331 | ERROR    | app.api.v1.chat:generate_sse_stream:120 - ❌ SSE 流式对话错误
+Traceback (most recent call last):
+
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+
+  File "F:\Projects_code\zhixing\app\run.py", line 34, in <module>
+    loop.run_until_complete(server.serve())
+
+  File "D:\python313\Lib\asyncio\base_events.py", line 712, in run_until_complete
+    self.run_forever()
+  File "D:\python313\Lib\asyncio\base_events.py", line 683, in run_forever
+    self._run_once()
+  File "D:\python313\Lib\asyncio\base_events.py", line 2040, in _run_once
+    handle._run()
+  File "D:\python313\Lib\asyncio\events.py", line 89, in _run
+    self._context.run(self._callback, *self._args)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\anyio\_core\_tasks.py", line 275, in _run_coro
+    retval = await self._coro
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\starlette\responses.py", line 273, in wrap
+    await func()
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\starlette\responses.py", line 253, in stream_response
+    async for chunk in self.body_iterator:
+
+> File "F:\Projects_code\zhixing\app\api\v1\chat.py", line 76, in generate_sse_stream
+    async for event in agent.astream_events(
+
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 1516, in astream_events
+    async for event in event_stream:
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langchain_core\tracers\event_stream.py", line 1100, in _astream_events_implementation_v2
+    await task
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langchain_core\tracers\event_stream.py", line 1055, in consume_astream
+    async for _ in event_streamer.tap_output_aiter(run_id, stream):
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langchain_core\tracers\event_stream.py", line 199, in tap_output_aiter
+    first = await anext(output, sentinel)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langgraph\pregel\main.py", line 2971, in astream
+    async for _ in runner.atick(
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langgraph\pregel\_runner.py", line 304, in atick
+    await arun_with_retry(
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langgraph\pregel\_retry.py", line 132, in arun_with_retry
+    async for _ in task.proc.astream(task.input, config):
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langgraph\_internal\_runnable.py", line 839, in astream
+    output = await asyncio.create_task(
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langgraph\_internal\_runnable.py", line 904, in _consume_aiter
+    async for chunk in it:
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langchain_core\tracers\event_stream.py", line 199, in tap_output_aiter
+    first = await anext(output, sentinel)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 1589, in atransform
+    async for ichunk in input:
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 1589, in atransform
+    async for ichunk in input:
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 1170, in astream
+    yield await self.ainvoke(input, config, **kwargs)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langgraph\_internal\_runnable.py", line 473, in ainvoke
+    ret = await self.afunc(*args, **kwargs)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langchain\agents\factory.py", line 1189, in amodel_node
+    response = await awrap_model_call_handler(request, _execute_model_async)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langchain\agents\factory.py", line 231, in normalized_single
+    result = await single_handler(request, handler)
+
+  File "F:\Projects_code\zhixing\app\core\middleware.py", line 119, in awrap_model_call
+    return await handler(modified_request) # 把当前 ModelRequest 继续交给后续调用链执行”的函数。
+
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langchain\agents\factory.py", line 1152, in _execute_model_async
+    model_, effective_response_format = _get_bound_model(request)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langchain\agents\factory.py", line 1019, in _get_bound_model
+    raise ValueError(msg)
+
+ValueError: Middleware returned unknown tool names: ['update_travel_style_tool', 'update_dietary_restriction_tool', 'update_food_preference_tool', 'add_travel_record_tool']
+
+Available client-side tools: ['check_current_progress', 'generate_itinerary_tool', 'generate_order_tool', 'get-current-date', 'get-interline-tickets', 'get-station-by-telecode', 'get-station-code-by-names', 'get-station-code-of-citys', 'get-stations-code-in-city', 'get-tickets', 'get-train-route-stations', 'getHotelDetail', 'getHotelSearchTags', 'get_weather_forecast', 'go_back_to_accommodation', 'go_back_to_budget', 'go_back_to_destination', 'go_back_to_food', 'go_back_to_itinerary', 'go_back_to_requirement', 'go_back_to_step', 'go_back_to_transport', 'maps_around_search', 'maps_direction_bicycling', 'maps_direction_driving', 'maps_direction_transit_integrated', 'maps_direction_walking', 'maps_distance', 'maps_geo', 'maps_ip_location', 'maps_regeocode', 'maps_schema_navi', 'maps_schema_personal_map', 'maps_schema_take_taxi', 'maps_search_detail', 'maps_text_search', 'maps_weather', 'query_destination_info', 'query_transport_options', 'record_requirement_tool', 'searchHotels', 'search_accommodation_info', 'search_destination_guide', 'search_food_recommendations', 'search_travel_info', 'search_travel_tips', 'select_accommodation_tool', 'select_destination_tool', 'select_food_tool', 'select_transport_tool', 'summarize_budget_tool']
+
+To fix this issue:
+1. Ensure the tools are passed to create_agent() via the 'tools' parameter
+2. If using custom middleware with tools, ensure they're registered via middleware.tools attribute
+3. Verify that tool names in ModelRequest.tools match the actual tool.name values
+Note: Built-in provider tools (dict format) can be added dynamically.
+During task with name 'model' and id '658b3e02-a486-9a92-5fc7-5f56cfd30b63'
+2026-08-16 04:28:09.299 | ERROR    | app.api.v1.chat:generate_sse_stream:128 - ❌ SSE 流式对话错误
+Traceback (most recent call last):
+
+  File "/app/.venv/bin/uvicorn", line 10, in <module>
+    sys.exit(main())
+    │   │    └ <Command main>
+    │   └ <built-in function exit>
+    └ <module 'sys' (built-in)>
+  File "/app/.venv/lib/python3.12/site-packages/click/core.py", line 1569, in __call__
+    return self.main(*args, **kwargs)
+           │    │     │       └ {}
+           │    │     └ ()
+           │    └ <function Command.main at 0x72ed29e4eac0>
+           └ <Command main>
+  File "/app/.venv/lib/python3.12/site-packages/click/core.py", line 1490, in main
+    rv = self.invoke(ctx)
+         │    │      └ <click.core.Context object at 0x72ed2aee36e0>
+         │    └ <function Command.invoke at 0x72ed29e4e7a0>
+         └ <Command main>
+  File "/app/.venv/lib/python3.12/site-packages/click/core.py", line 1353, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+           │   │      │    │           │   └ {'host': '0.0.0.0', 'port': 8000, 'app': 'app.main:app', 'uds': None, 'fd': None, 'reload': False, 'reload_dirs': (), 'reload...
+           │   │      │    │           └ <click.core.Context object at 0x72ed2aee36e0>
+           │   │      │    └ <function main at 0x72ed29ce3ce0>
+           │   │      └ <Command main>
+           │   └ <function Context.invoke at 0x72ed29e4d9e0>
+           └ <click.core.Context object at 0x72ed2aee36e0>
+  File "/app/.venv/lib/python3.12/site-packages/click/core.py", line 907, in invoke
+    return callback(*args, **kwargs)
+           │         │       └ {'host': '0.0.0.0', 'port': 8000, 'app': 'app.main:app', 'uds': None, 'fd': None, 'reload': False, 'reload_dirs': (), 'reload...
+           │         └ ()
+           └ <function main at 0x72ed29ce3ce0>
+  File "/app/.venv/lib/python3.12/site-packages/uvicorn/main.py", line 440, in main
+    run(
+    └ <function run at 0x72ed29e4ac00>
+  File "/app/.venv/lib/python3.12/site-packages/uvicorn/main.py", line 621, in run
+    server.run()
+    │      └ <function Server.run at 0x72ed29e28040>
+    └ <uvicorn.server.Server object at 0x72ed2a04bd70>
+  File "/app/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 77, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+           │           │    │             │                      │    │      └ <function Config.get_loop_factory at 0x72ed29fb4ea0>
+           │           │    │             │                      │    └ <uvicorn.config.Config object at 0x72ed2af18170>
+           │           │    │             │                      └ <uvicorn.server.Server object at 0x72ed2a04bd70>
+           │           │    │             └ None
+           │           │    └ <function Server.serve at 0x72ed29e280e0>
+           │           └ <uvicorn.server.Server object at 0x72ed2a04bd70>
+           └ <function run at 0x72ed2ac63740>
+  File "/usr/local/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           │      │   └ <coroutine object Server.serve at 0x72ec0d302420>
+           │      └ <function Runner.run at 0x72ed2a22d1c0>
+           └ <asyncio.runners.Runner object at 0x72ed2aef76b0>
+  File "/usr/local/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task pending name='Task-1' coro=<Server.serve() running at /app/.venv/lib/python3.12/site-packages/uvicorn/server.py:81> wai...
+           │    │     └ <cyfunction Loop.run_until_complete at 0x72ec0d4ce800>
+           │    └ <uvloop.Loop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x72ed2aef76b0>
+  File "/app/.venv/lib/python3.12/site-packages/anyio/_core/_tasks.py", line 275, in _run_coro
+    retval = await self._coro
+                   │    └ <member '_coro' of 'TaskHandle' objects>
+                   └ <TaskHandle pending name='starlette.responses.StreamingResponse.__call__.<locals>.wrap' coro=<coroutine object StreamingRespo...
+  File "/app/.venv/lib/python3.12/site-packages/starlette/responses.py", line 273, in wrap
+    await func()
+          └ functools.partial(<bound method StreamingResponse.stream_response of <starlette.responses.StreamingResponse object at 0x72ec0...
+  File "/app/.venv/lib/python3.12/site-packages/starlette/responses.py", line 253, in stream_response
+    async for chunk in self.body_iterator:
+              │        │    └ <async_generator object generate_sse_stream at 0x72ec3e6b6a40>
+              │        └ <starlette.responses.StreamingResponse object at 0x72ec0aed6c00>
+              └ b'data: {"type": "tool_call", "tool": "query_destination_info"}\n\n'
+
+> File "/app/app/api/v1/chat.py", line 76, in generate_sse_stream
+    async for event in agent.astream_events(
+              │        │     └ <function Runnable.astream_events at 0x72ed23959440>
+              │        └ <langgraph.graph.state.CompiledStateGraph object at 0x72ec0aed8110>
+              └ {'event': 'on_tool_error', 'data': {'error': UnboundLocalError("cannot access local variable '_explore_agent' where it is not...
+
+  File "/app/.venv/lib/python3.12/site-packages/langchain_core/runnables/base.py", line 1516, in astream_events
+    async for event in event_stream:
+              │        └ <async_generator object _astream_events_implementation_v2 at 0x72ec0d5ef640>
+              └ {'event': 'on_tool_error', 'data': {'error': UnboundLocalError("cannot access local variable '_explore_agent' where it is not...
+  File "/app/.venv/lib/python3.12/site-packages/langchain_core/tracers/event_stream.py", line 1100, in _astream_events_implementation_v2
+    await task
+          └ <Task finished name='Task-706' coro=<_astream_events_implementation_v2.<locals>.consume_astream() done, defined at /app/.venv...
+  File "/app/.venv/lib/python3.12/site-packages/langchain_core/tracers/event_stream.py", line 1055, in consume_astream
+    async for _ in event_streamer.tap_output_aiter(run_id, stream):
+              │    │              │                │       └ <async_generator object Pregel.astream at 0x5f2a4f55af30>
+              │    │              │                └ UUID('01a008d3-3903-7421-8418-bd47a845d68b')
+              │    │              └ <function _AstreamEventsCallbackHandler.tap_output_aiter at 0x72ed2389a2a0>
+              │    └ <langchain_core.tracers.event_stream._AstreamEventsCallbackHandler object at 0x72ec0aeda2d0>
+              └ {'model': {'messages': [AIMessage(content='', additional_kwargs={}, response_metadata={'finish_reason': 'tool_calls', 'model_...
+  File "/app/.venv/lib/python3.12/site-packages/langchain_core/tracers/event_stream.py", line 222, in tap_output_aiter
+    async for chunk in output:
+              │        └ <async_generator object Pregel.astream at 0x5f2a4f55af30>
+              └ {'model': {'messages': [AIMessage(content='', additional_kwargs={}, response_metadata={'finish_reason': 'tool_calls', 'model_...
+  File "/app/.venv/lib/python3.12/site-packages/langgraph/pregel/main.py", line 2971, in astream
+    async for _ in runner.atick(
+              │    │      └ <function PregelRunner.atick at 0x72ec4455e980>
+              │    └ <langgraph.pregel._runner.PregelRunner object at 0x72ec0adf2ff0>
+              └ None
+  File "/app/.venv/lib/python3.12/site-packages/langgraph/pregel/_runner.py", line 304, in atick
+    await arun_with_retry(
+          └ <function arun_with_retry at 0x72ec4455dc60>
+  File "/app/.venv/lib/python3.12/site-packages/langgraph/pregel/_retry.py", line 132, in arun_with_retry
+    async for _ in task.proc.astream(task.input, config):
+                   │    │            │    │      └ {'metadata': {'thread_id': '1765d859-be63-4fd4-b3a7-c8a6798aff90', 'langgraph_step': 12, 'langgraph_node': 'tools', 'langgrap...
+                   │    │            │    └ <member 'input' of 'PregelExecutableTask' objects>
+                   │    │            └ PregelExecutableTask(name='tools', input={'__type': 'tool_call_with_context', 'tool_call': {'name': 'query_destination_info',...
+                   │    └ <member 'proc' of 'PregelExecutableTask' objects>
+                   └ PregelExecutableTask(name='tools', input={'__type': 'tool_call_with_context', 'tool_call': {'name': 'query_destination_info',...
+  File "/app/.venv/lib/python3.12/site-packages/langgraph/_internal/_runnable.py", line 839, in astream
+    output = await asyncio.create_task(
+                   │       └ <function create_task at 0x72ed2a1e65c0>
+                   └ <module 'asyncio' from '/usr/local/lib/python3.12/asyncio/__init__.py'>
+  File "/app/.venv/lib/python3.12/site-packages/langgraph/_internal/_runnable.py", line 904, in _consume_aiter
+    async for chunk in it:
+                       └ <async_generator object _AstreamEventsCallbackHandler.tap_output_aiter at 0x72ec0cfb03d0>
+  File "/app/.venv/lib/python3.12/site-packages/langchain_core/tracers/event_stream.py", line 199, in tap_output_aiter
+    first = await anext(output, sentinel)
+                        │       └ <object object at 0x72ec0d7dc6c0>
+                        └ <async_generator object Runnable.atransform at 0x72ec0af03670>
+  File "/app/.venv/lib/python3.12/site-packages/langchain_core/runnables/base.py", line 1589, in atransform
+    async for ichunk in input:
+                        └ <async_generator object Runnable.atransform at 0x72ec0af03ef0>
+  File "/app/.venv/lib/python3.12/site-packages/langchain_core/runnables/base.py", line 1589, in atransform
+    async for ichunk in input:
+                        └ <async_generator object Runnable.astream at 0x72ec0aeb3c40>
+  File "/app/.venv/lib/python3.12/site-packages/langchain_core/runnables/base.py", line 1170, in astream
+    yield await self.ainvoke(input, config, **kwargs)
+                │    │       │      │         └ {}
+                │    │       │      └ {'metadata': {'thread_id': '1765d859-be63-4fd4-b3a7-c8a6798aff90', 'langgraph_step': 12, 'langgraph_node': 'tools', 'langgrap...
+                │    │       └ {'__type': 'tool_call_with_context', 'tool_call': {'name': 'query_destination_info', 'args': {'destination': '香港', 'query': '...
+                │    └ <function RunnableCallable.ainvoke at 0x72ec44d58d60>
+                └ tools(tags=None, recurse=True, explode_args=False, func_accepts={'config': ('N/A', <class 'inspect._empty'>), 'runtime': ('N/...
+  File "/app/.venv/lib/python3.12/site-packages/langgraph/_internal/_runnable.py", line 473, in ainvoke
+    ret = await self.afunc(*args, **kwargs)
+                │    │      │       └ {'config': {'metadata': {'thread_id': '1765d859-be63-4fd4-b3a7-c8a6798aff90', 'langgraph_step': 12, 'langgraph_node': 'tools'...
+                │    │      └ ({'__type': 'tool_call_with_context', 'tool_call': {'name': 'query_destination_info', 'args': {'destination': '香港', 'query': ...
+                │    └ <bound method ToolNode._afunc of tools(tags=None, recurse=True, explode_args=False, func_accepts={'config': ('N/A', <class 'i...
+                └ tools(tags=None, recurse=True, explode_args=False, func_accepts={'config': ('N/A', <class 'inspect._empty'>), 'runtime': ('N/...
+  File "/app/.venv/lib/python3.12/site-packages/langgraph/prebuilt/tool_node.py", line 832, in _afunc
+    outputs = await asyncio.gather(*coros)
+                    │       │       └ [<coroutine object ToolNode._arun_one at 0x72ec0cfb1470>]
+                    │       └ <function gather at 0x72ed2a1e7880>
+                    └ <module 'asyncio' from '/usr/local/lib/python3.12/asyncio/__init__.py'>
+  File "/app/.venv/lib/python3.12/site-packages/langgraph/prebuilt/tool_node.py", line 1163, in _arun_one
+    return await self._execute_tool_async(tool_request, input_type, config)
+                 │    │                   │             │           └ {'tags': [], 'metadata': {'thread_id': '1765d859-be63-4fd4-b3a7-c8a6798aff90', 'langgraph_step': 12, 'langgraph_node': 'tools...
+                 │    │                   │             └ 'tool_calls'
+                 │    │                   └ ToolCallRequest(tool_call={'name': 'query_destination_info', 'args': {'destination': '香港', 'query': '香港8月旅游攻略 观光景点 天气'}, 'id'...
+                 │    └ <function ToolNode._execute_tool_async at 0x72ec445ed300>
+                 └ tools(tags=None, recurse=True, explode_args=False, func_accepts={'config': ('N/A', <class 'inspect._empty'>), 'runtime': ('N/...
+  File "/app/.venv/lib/python3.12/site-packages/langgraph/prebuilt/tool_node.py", line 1112, in _execute_tool_async
+    content = _handle_tool_error(e, flag=self._handle_tool_errors)
+              │                          │    └ <function _default_handle_tool_errors at 0x72ec445ec7c0>
+              │                          └ tools(tags=None, recurse=True, explode_args=False, func_accepts={'config': ('N/A', <class 'inspect._empty'>), 'runtime': ('N/...
+              └ <function _handle_tool_error at 0x72ec445ec9a0>
+  File "/app/.venv/lib/python3.12/site-packages/langgraph/prebuilt/tool_node.py", line 424, in _handle_tool_error
+    content = flag(e)  # type: ignore [assignment, call-arg]
+              │    └ UnboundLocalError("cannot access local variable '_explore_agent' where it is not associated with a value")
+              └ <function _default_handle_tool_errors at 0x72ec445ec7c0>
+  File "/app/.venv/lib/python3.12/site-packages/langgraph/prebuilt/tool_node.py", line 381, in _default_handle_tool_errors
+    raise e
+          └ UnboundLocalError("cannot access local variable '_explore_agent' where it is not associated with a value")
+  File "/app/.venv/lib/python3.12/site-packages/langgraph/prebuilt/tool_node.py", line 1069, in _execute_tool_async
+    response = await tool.ainvoke(call_args, config)
+                     │    │       │          └ {'tags': [], 'metadata': {'thread_id': '1765d859-be63-4fd4-b3a7-c8a6798aff90', 'langgraph_step': 12, 'langgraph_node': 'tools...
+                     │    │       └ {'name': 'query_destination_info', 'args': {'destination': '香港', 'query': '香港8月旅游攻略 观光景点 天气'}, 'id': 'call_034300b0853647fa89...
+                     │    └ <function StructuredTool.ainvoke at 0x72ed233b2c00>
+                     └ StructuredTool(name='query_destination_info', description='查询目的地详细信息（并行查询多个源）\n\n此工具会调用 Router，并行执行：\n1. 探索 Agent：从 RAG 系统检索景...
+  File "/app/.venv/lib/python3.12/site-packages/langchain_core/tools/structured.py", line 70, in ainvoke
+    return await super().ainvoke(input, config, **kwargs)
+                                 │      │         └ {}
+                                 │      └ {'tags': [], 'metadata': {'thread_id': '1765d859-be63-4fd4-b3a7-c8a6798aff90', 'langgraph_step': 12, 'langgraph_node': 'tools...
+                                 └ {'name': 'query_destination_info', 'args': {'destination': '香港', 'query': '香港8月旅游攻略 观光景点 天气'}, 'id': 'call_034300b0853647fa89...
+  File "/app/.venv/lib/python3.12/site-packages/langchain_core/tools/base.py", line 652, in ainvoke
+    return await self.arun(tool_input, **kwargs)
+                 │    │    │             └ {'callbacks': <langchain_core.callbacks.manager.AsyncCallbackManager object at 0x72ec0adf19d0>, 'tags': [], 'metadata': {'thr...
+                 │    │    └ {'destination': '香港', 'query': '香港8月旅游攻略 观光景点 天气'}
+                 │    └ <function BaseTool.arun at 0x72ed23945300>
+                 └ StructuredTool(name='query_destination_info', description='查询目的地详细信息（并行查询多个源）\n\n此工具会调用 Router，并行执行：\n1. 探索 Agent：从 RAG 系统检索景...
+  File "/app/.venv/lib/python3.12/site-packages/langchain_core/tools/base.py", line 1131, in arun
+    raise error_to_raise
+          └ UnboundLocalError("cannot access local variable '_explore_agent' where it is not associated with a value")
+  File "/app/.venv/lib/python3.12/site-packages/langchain_core/tools/base.py", line 1097, in arun
+    response = await coro_with_context(coro, context)
+                     │                 │     └ <_contextvars.Context object at 0x72ec0cfbba40>
+                     │                 └ <coroutine object StructuredTool._arun at 0x72ec0af03780>
+                     └ <function coro_with_context at 0x72ed25301940>
+  File "/app/.venv/lib/python3.12/site-packages/langchain_core/tools/structured.py", line 124, in _arun
+    return await self.coroutine(*args, **kwargs)
+                 │    │          │       └ {'destination': '香港', 'query': '香港8月旅游攻略 观光景点 天气'}
+                 │    │          └ ()
+                 │    └ <function query_destination_info at 0x72ed233b3e20>
+                 └ StructuredTool(name='query_destination_info', description='查询目的地详细信息（并行查询多个源）\n\n此工具会调用 Router，并行执行：\n1. 探索 Agent：从 RAG 系统检索景...
+
+  File "/app/app/tools/router_query.py", line 33, in query_destination_info
+    result = await router.ainvoke(
+                   │      └ <function Pregel.ainvoke at 0x72ec44620ae0>
+                   └ <langgraph.graph.state.CompiledStateGraph object at 0x72ec0adf2450>
+
+  File "/app/.venv/lib/python3.12/site-packages/langgraph/pregel/main.py", line 3158, in ainvoke
+    async for chunk in self.astream(
+              │        │    └ <function Pregel.astream at 0x72ec446209a0>
+              │        └ <langgraph.graph.state.CompiledStateGraph object at 0x72ec0adf2450>
+              └ ('values', {'original_query': '香港8月旅游攻略 观光景点 天气', 'destination': '香港', 'classifications': [{'agent': 'explore', 'query': '香港8...
+  File "/app/.venv/lib/python3.12/site-packages/langgraph/pregel/main.py", line 2971, in astream
+    async for _ in runner.atick(
+              │    │      └ <function PregelRunner.atick at 0x72ec4455e980>
+              │    └ <langgraph.pregel._runner.PregelRunner object at 0x72ec0d667140>
+              └ None
+  File "/app/.venv/lib/python3.12/site-packages/langgraph/pregel/_runner.py", line 410, in atick
+    _panic_or_proceed(
+    └ <function _panic_or_proceed at 0x72ec4455eb60>
+  File "/app/.venv/lib/python3.12/site-packages/langgraph/pregel/_runner.py", line 520, in _panic_or_proceed
+    raise exc
+          └ UnboundLocalError("cannot access local variable '_explore_agent' where it is not associated with a value")
+  File "/app/.venv/lib/python3.12/site-packages/langgraph/pregel/_retry.py", line 132, in arun_with_retry
+    async for _ in task.proc.astream(task.input, config):
+                   │    │            │    │      └ {'metadata': {'thread_id': '1765d859-be63-4fd4-b3a7-c8a6798aff90', 'langgraph_step': 2, 'langgraph_node': 'weather', 'langgra...
+                   │    │            │    └ <member 'input' of 'PregelExecutableTask' objects>
+                   │    │            └ PregelExecutableTask(name='weather', input={'query': '香港8月天气', 'destination': '香港'}, proc=<langgraph._internal._runnable.Runn...
+                   │    └ <member 'proc' of 'PregelExecutableTask' objects>
+                   └ PregelExecutableTask(name='weather', input={'query': '香港8月天气', 'destination': '香港'}, proc=<langgraph._internal._runnable.Runn...
+  File "/app/.venv/lib/python3.12/site-packages/langgraph/_internal/_runnable.py", line 839, in astream
+    output = await asyncio.create_task(
+                   │       └ <function create_task at 0x72ed2a1e65c0>
+                   └ <module 'asyncio' from '/usr/local/lib/python3.12/asyncio/__init__.py'>
+  File "/app/.venv/lib/python3.12/site-packages/langgraph/_internal/_runnable.py", line 904, in _consume_aiter
+    async for chunk in it:
+                       └ <async_generator object _AstreamEventsCallbackHandler.tap_output_aiter at 0x72ec0cfb3940>
+  File "/app/.venv/lib/python3.12/site-packages/langchain_core/tracers/event_stream.py", line 199, in tap_output_aiter
+    first = await anext(output, sentinel)
+                        │       └ <object object at 0x72ec0d7ddaa0>
+                        └ <async_generator object Runnable.atransform at 0x72ec0af03340>
+  File "/app/.venv/lib/python3.12/site-packages/langchain_core/runnables/base.py", line 1589, in atransform
+    async for ichunk in input:
+                        └ <async_generator object Runnable.astream at 0x72ec0adb05e0>
+  File "/app/.venv/lib/python3.12/site-packages/langchain_core/runnables/base.py", line 1170, in astream
+    yield await self.ainvoke(input, config, **kwargs)
+                │    │       │      │         └ {}
+                │    │       │      └ {'metadata': {'thread_id': '1765d859-be63-4fd4-b3a7-c8a6798aff90', 'langgraph_step': 2, 'langgraph_node': 'weather', 'langgra...
+                │    │       └ {'query': '香港8月天气', 'destination': '香港'}
+                │    └ <function RunnableCallable.ainvoke at 0x72ec44d58d60>
+                └ weather(tags=None, recurse=True, explode_args=False, func_accepts={})
+  File "/app/.venv/lib/python3.12/site-packages/langgraph/_internal/_runnable.py", line 473, in ainvoke
+    ret = await self.afunc(*args, **kwargs)
+                │    │      │       └ {}
+                │    │      └ ({'query': '香港8月天气', 'destination': '香港'},)
+                │    └ <function weather_agent_node at 0x72ec0d6e74c0>
+                └ weather(tags=None, recurse=True, explode_args=False, func_accepts={})
+
+  File "/app/app/agents/routers/destination_router.py", line 296, in weather_agent_node
+    if _explore_agent is None:
+       └ <langgraph.graph.state.CompiledStateGraph object at 0x72ec0aed7440>
+
+UnboundLocalError: cannot access local variable '_explore_agent' where it is not associated with a value
+During task with name 'weather' and id 'c7b15a0d-4577-38d1-22a6-2d01f66ed744'
+During task with name 'tools' and id 'fcbbe46b-2632-74be-2177-0fcf38770a34'
+2026-08-16 04:32:09.799 | ERROR    | app.api.v1.chat:generate_sse_stream:128 - ❌ SSE 流式对话错误
+Traceback (most recent call last):
+
+  File "/app/.venv/bin/uvicorn", line 10, in <module>
+    sys.exit(main())
+    │   │    └ <Command main>
+    │   └ <built-in function exit>
+    └ <module 'sys' (built-in)>
+  File "/app/.venv/lib/python3.12/site-packages/click/core.py", line 1569, in __call__
+    return self.main(*args, **kwargs)
+           │    │     │       └ {}
+           │    │     └ ()
+           │    └ <function Command.main at 0x7388d11caac0>
+           └ <Command main>
+  File "/app/.venv/lib/python3.12/site-packages/click/core.py", line 1490, in main
+    rv = self.invoke(ctx)
+         │    │      └ <click.core.Context object at 0x7388d2146bd0>
+         │    └ <function Command.invoke at 0x7388d11ca7a0>
+         └ <Command main>
+  File "/app/.venv/lib/python3.12/site-packages/click/core.py", line 1353, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+           │   │      │    │           │   └ {'host': '0.0.0.0', 'port': 8000, 'app': 'app.main:app', 'uds': None, 'fd': None, 'reload': False, 'reload_dirs': (), 'reload...
+           │   │      │    │           └ <click.core.Context object at 0x7388d2146bd0>
+           │   │      │    └ <function main at 0x7388d1057ce0>
+           │   │      └ <Command main>
+           │   └ <function Context.invoke at 0x7388d11c99e0>
+           └ <click.core.Context object at 0x7388d2146bd0>
+  File "/app/.venv/lib/python3.12/site-packages/click/core.py", line 907, in invoke
+    return callback(*args, **kwargs)
+           │         │       └ {'host': '0.0.0.0', 'port': 8000, 'app': 'app.main:app', 'uds': None, 'fd': None, 'reload': False, 'reload_dirs': (), 'reload...
+           │         └ ()
+           └ <function main at 0x7388d1057ce0>
+  File "/app/.venv/lib/python3.12/site-packages/uvicorn/main.py", line 440, in main
+    run(
+    └ <function run at 0x7388d11c6c00>
+  File "/app/.venv/lib/python3.12/site-packages/uvicorn/main.py", line 621, in run
+    server.run()
+    │      └ <function Server.run at 0x7388d11a4040>
+    └ <uvicorn.server.Server object at 0x7388d11df140>
+  File "/app/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 77, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+           │           │    │             │                      │    │      └ <function Config.get_loop_factory at 0x7388d1330ea0>
+           │           │    │             │                      │    └ <uvicorn.config.Config object at 0x7388d11df4a0>
+           │           │    │             │                      └ <uvicorn.server.Server object at 0x7388d11df140>
+           │           │    │             └ None
+           │           │    └ <function Server.serve at 0x7388d11a40e0>
+           │           └ <uvicorn.server.Server object at 0x7388d11df140>
+           └ <function run at 0x7388d1fdf740>
+  File "/usr/local/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           │      │   └ <coroutine object Server.serve at 0x7387b468d8c0>
+           │      └ <function Runner.run at 0x7388d15a91c0>
+           └ <asyncio.runners.Runner object at 0x7388d11df020>
+  File "/usr/local/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task pending name='Task-1' coro=<Server.serve() running at /app/.venv/lib/python3.12/site-packages/uvicorn/server.py:81> wai...
+           │    │     └ <cyfunction Loop.run_until_complete at 0x7387b4842680>
+           │    └ <uvloop.Loop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x7388d11df020>
+  File "/app/.venv/lib/python3.12/site-packages/anyio/_core/_tasks.py", line 275, in _run_coro
+    retval = await self._coro
+                   │    └ <member '_coro' of 'TaskHandle' objects>
+                   └ <TaskHandle pending name='starlette.responses.StreamingResponse.__call__.<locals>.wrap' coro=<coroutine object StreamingRespo...
+  File "/app/.venv/lib/python3.12/site-packages/starlette/responses.py", line 273, in wrap
+    await func()
+          └ functools.partial(<bound method StreamingResponse.stream_response of <starlette.responses.StreamingResponse object at 0x7387b...
+  File "/app/.venv/lib/python3.12/site-packages/starlette/responses.py", line 253, in stream_response
+    async for chunk in self.body_iterator:
+              │        │    └ <async_generator object generate_sse_stream at 0x7387e5abea40>
+              │        └ <starlette.responses.StreamingResponse object at 0x7387b4a0f0b0>
+              └ b'data: {"type": "tool_call", "tool": "get_weather_forecast"}\n\n'
+
+> File "/app/app/api/v1/chat.py", line 76, in generate_sse_stream
+    async for event in agent.astream_events(
+              │        │     └ <function Runnable.astream_events at 0x7388cac6d440>
+              │        └ <langgraph.graph.state.CompiledStateGraph object at 0x7387b21926c0>
+              └ {'event': 'on_tool_error', 'data': {'error': TypeError("'coroutine' object is not iterable"), 'input': {'destination': '香港', ...
+
+  File "/app/.venv/lib/python3.12/site-packages/langchain_core/runnables/base.py", line 1516, in astream_events
+    async for event in event_stream:
+              │        └ <async_generator object _astream_events_implementation_v2 at 0x7387b498f7c0>
+              └ {'event': 'on_tool_error', 'data': {'error': TypeError("'coroutine' object is not iterable"), 'input': {'destination': '香港', ...
+  File "/app/.venv/lib/python3.12/site-packages/langchain_core/tracers/event_stream.py", line 1100, in _astream_events_implementation_v2
+    await task
+          └ <Task finished name='Task-414' coro=<_astream_events_implementation_v2.<locals>.consume_astream() done, defined at /app/.venv...
+  File "/app/.venv/lib/python3.12/site-packages/langchain_core/tracers/event_stream.py", line 1055, in consume_astream
+    async for _ in event_streamer.tap_output_aiter(run_id, stream):
+              │    │              │                │       └ <async_generator object Pregel.astream at 0x561a65857be0>
+              │    │              │                └ UUID('01a008d7-1c11-7e01-adf9-5f16ba61d42a')
+              │    │              └ <function _AstreamEventsCallbackHandler.tap_output_aiter at 0x7388cabb22a0>
+              │    └ <langchain_core.tracers.event_stream._AstreamEventsCallbackHandler object at 0x7387b2191520>
+              └ {'tools': {'messages': [ToolMessage(content=[{'type': 'text', 'text': '{"error": "UNKNOWN_ERROR", "infocode": "20003"}', 'id'...
+  File "/app/.venv/lib/python3.12/site-packages/langchain_core/tracers/event_stream.py", line 222, in tap_output_aiter
+    async for chunk in output:
+              │        └ <async_generator object Pregel.astream at 0x561a65857be0>
+              └ {'tools': {'messages': [ToolMessage(content=[{'type': 'text', 'text': '{"error": "UNKNOWN_ERROR", "infocode": "20003"}', 'id'...
+  File "/app/.venv/lib/python3.12/site-packages/langgraph/pregel/main.py", line 2971, in astream
+    async for _ in runner.atick(
+              │    │      └ <function PregelRunner.atick at 0x7387eb956a20>
+              │    └ <langgraph.pregel._runner.PregelRunner object at 0x7387b21908c0>
+              └ None
+  File "/app/.venv/lib/python3.12/site-packages/langgraph/pregel/_runner.py", line 410, in atick
+    _panic_or_proceed(
+    └ <function _panic_or_proceed at 0x7387eb956c00>
+  File "/app/.venv/lib/python3.12/site-packages/langgraph/pregel/_runner.py", line 520, in _panic_or_proceed
+    raise exc
+          └ TypeError("'coroutine' object is not iterable")
+  File "/app/.venv/lib/python3.12/site-packages/langgraph/pregel/_retry.py", line 132, in arun_with_retry
+    async for _ in task.proc.astream(task.input, config):
+                   │    │            │    │      └ {'metadata': {'thread_id': '1c05b6a7-c8bb-419a-8c36-5ac98efe4a55', 'langgraph_step': 9, 'langgraph_node': 'tools', 'langgraph...
+                   │    │            │    └ <member 'input' of 'PregelExecutableTask' objects>
+                   │    │            └ PregelExecutableTask(name='tools', input={'__type': 'tool_call_with_context', 'tool_call': {'name': 'query_destination_info',...
+                   │    └ <member 'proc' of 'PregelExecutableTask' objects>
+                   └ PregelExecutableTask(name='tools', input={'__type': 'tool_call_with_context', 'tool_call': {'name': 'query_destination_info',...
+  File "/app/.venv/lib/python3.12/site-packages/langgraph/_internal/_runnable.py", line 839, in astream
+    output = await asyncio.create_task(
+                   │       └ <function create_task at 0x7388d155e5c0>
+                   └ <module 'asyncio' from '/usr/local/lib/python3.12/asyncio/__init__.py'>
+  File "/app/.venv/lib/python3.12/site-packages/langgraph/_internal/_runnable.py", line 904, in _consume_aiter
+    async for chunk in it:
+                       └ <async_generator object _AstreamEventsCallbackHandler.tap_output_aiter at 0x7387b434b6e0>
+  File "/app/.venv/lib/python3.12/site-packages/langchain_core/tracers/event_stream.py", line 199, in tap_output_aiter
+    first = await anext(output, sentinel)
+                        │       └ <object object at 0x7387b4e11390>
+                        └ <async_generator object Runnable.atransform at 0x7387b21797a0>
+  File "/app/.venv/lib/python3.12/site-packages/langchain_core/runnables/base.py", line 1589, in atransform
+    async for ichunk in input:
+                        └ <async_generator object Runnable.atransform at 0x7387b217a460>
+  File "/app/.venv/lib/python3.12/site-packages/langchain_core/runnables/base.py", line 1589, in atransform
+    async for ichunk in input:
+                        └ <async_generator object Runnable.astream at 0x7387b222fd30>
+  File "/app/.venv/lib/python3.12/site-packages/langchain_core/runnables/base.py", line 1170, in astream
+    yield await self.ainvoke(input, config, **kwargs)
+                │    │       │      │         └ {}
+                │    │       │      └ {'metadata': {'thread_id': '1c05b6a7-c8bb-419a-8c36-5ac98efe4a55', 'langgraph_step': 9, 'langgraph_node': 'tools', 'langgraph...
+                │    │       └ {'__type': 'tool_call_with_context', 'tool_call': {'name': 'query_destination_info', 'args': {'destination': '香港', 'query': '...
+                │    └ <function RunnableCallable.ainvoke at 0x7387ec1a0e00>
+                └ tools(tags=None, recurse=True, explode_args=False, func_accepts={'config': ('N/A', <class 'inspect._empty'>), 'runtime': ('N/...
+  File "/app/.venv/lib/python3.12/site-packages/langgraph/_internal/_runnable.py", line 473, in ainvoke
+    ret = await self.afunc(*args, **kwargs)
+                │    │      │       └ {'config': {'metadata': {'thread_id': '1c05b6a7-c8bb-419a-8c36-5ac98efe4a55', 'langgraph_step': 9, 'langgraph_node': 'tools',...
+                │    │      └ ({'__type': 'tool_call_with_context', 'tool_call': {'name': 'query_destination_info', 'args': {'destination': '香港', 'query': ...
+                │    └ <bound method ToolNode._afunc of tools(tags=None, recurse=True, explode_args=False, func_accepts={'config': ('N/A', <class 'i...
+                └ tools(tags=None, recurse=True, explode_args=False, func_accepts={'config': ('N/A', <class 'inspect._empty'>), 'runtime': ('N/...
+  File "/app/.venv/lib/python3.12/site-packages/langgraph/prebuilt/tool_node.py", line 832, in _afunc
+    outputs = await asyncio.gather(*coros)
+                    │       │       └ [<coroutine object ToolNode._arun_one at 0x7387b434a050>]
+                    │       └ <function gather at 0x7388d155f880>
+                    └ <module 'asyncio' from '/usr/local/lib/python3.12/asyncio/__init__.py'>
+  File "/app/.venv/lib/python3.12/site-packages/langgraph/prebuilt/tool_node.py", line 1163, in _arun_one
+    return await self._execute_tool_async(tool_request, input_type, config)
+                 │    │                   │             │           └ {'tags': [], 'metadata': {'thread_id': '1c05b6a7-c8bb-419a-8c36-5ac98efe4a55', 'langgraph_step': 9, 'langgraph_node': 'tools'...
+                 │    │                   │             └ 'tool_calls'
+                 │    │                   └ ToolCallRequest(tool_call={'name': 'query_destination_info', 'args': {'destination': '香港', 'query': '香港8月旅游 景点推荐 天气 注意事项'}, '...
+                 │    └ <function ToolNode._execute_tool_async at 0x7387eb9e93a0>
+                 └ tools(tags=None, recurse=True, explode_args=False, func_accepts={'config': ('N/A', <class 'inspect._empty'>), 'runtime': ('N/...
+  File "/app/.venv/lib/python3.12/site-packages/langgraph/prebuilt/tool_node.py", line 1112, in _execute_tool_async
+    content = _handle_tool_error(e, flag=self._handle_tool_errors)
+              │                          │    └ <function _default_handle_tool_errors at 0x7387eb9e8860>
+              │                          └ tools(tags=None, recurse=True, explode_args=False, func_accepts={'config': ('N/A', <class 'inspect._empty'>), 'runtime': ('N/...
+              └ <function _handle_tool_error at 0x7387eb9e8a40>
+  File "/app/.venv/lib/python3.12/site-packages/langgraph/prebuilt/tool_node.py", line 424, in _handle_tool_error
+    content = flag(e)  # type: ignore [assignment, call-arg]
+              │    └ TypeError("'coroutine' object is not iterable")
+              └ <function _default_handle_tool_errors at 0x7387eb9e8860>
+  File "/app/.venv/lib/python3.12/site-packages/langgraph/prebuilt/tool_node.py", line 381, in _default_handle_tool_errors
+    raise e
+          └ TypeError("'coroutine' object is not iterable")
+  File "/app/.venv/lib/python3.12/site-packages/langgraph/prebuilt/tool_node.py", line 1069, in _execute_tool_async
+    response = await tool.ainvoke(call_args, config)
+                     │    │       │          └ {'tags': [], 'metadata': {'thread_id': '1c05b6a7-c8bb-419a-8c36-5ac98efe4a55', 'langgraph_step': 9, 'langgraph_node': 'tools'...
+                     │    │       └ {'name': 'query_destination_info', 'args': {'destination': '香港', 'query': '香港8月旅游 景点推荐 天气 注意事项'}, 'id': 'call_b44782764f79462...
+                     │    └ <function StructuredTool.ainvoke at 0x7388ca6c6ca0>
+                     └ StructuredTool(name='query_destination_info', description='查询目的地详细信息（并行查询多个源）\n\n此工具会调用 Router，并行执行：\n1. 探索 Agent：从 RAG 系统检索景...
+  File "/app/.venv/lib/python3.12/site-packages/langchain_core/tools/structured.py", line 70, in ainvoke
+    return await super().ainvoke(input, config, **kwargs)
+                                 │      │         └ {}
+                                 │      └ {'tags': [], 'metadata': {'thread_id': '1c05b6a7-c8bb-419a-8c36-5ac98efe4a55', 'langgraph_step': 9, 'langgraph_node': 'tools'...
+                                 └ {'name': 'query_destination_info', 'args': {'destination': '香港', 'query': '香港8月旅游 景点推荐 天气 注意事项'}, 'id': 'call_b44782764f79462...
+  File "/app/.venv/lib/python3.12/site-packages/langchain_core/tools/base.py", line 652, in ainvoke
+    return await self.arun(tool_input, **kwargs)
+                 │    │    │             └ {'callbacks': <langchain_core.callbacks.manager.AsyncCallbackManager object at 0x7387b21e9220>, 'tags': [], 'metadata': {'thr...
+                 │    │    └ {'destination': '香港', 'query': '香港8月旅游 景点推荐 天气 注意事项'}
+                 │    └ <function BaseTool.arun at 0x7388cac59300>
+                 └ StructuredTool(name='query_destination_info', description='查询目的地详细信息（并行查询多个源）\n\n此工具会调用 Router，并行执行：\n1. 探索 Agent：从 RAG 系统检索景...
+  File "/app/.venv/lib/python3.12/site-packages/langchain_core/tools/base.py", line 1131, in arun
+    raise error_to_raise
+          └ TypeError("'coroutine' object is not iterable")
+  File "/app/.venv/lib/python3.12/site-packages/langchain_core/tools/base.py", line 1097, in arun
+    response = await coro_with_context(coro, context)
+                     │                 │     └ <_contextvars.Context object at 0x7387b43575c0>
+                     │                 └ <coroutine object StructuredTool._arun at 0x7387b21799c0>
+                     └ <function coro_with_context at 0x7388cc701940>
+  File "/app/.venv/lib/python3.12/site-packages/langchain_core/tools/structured.py", line 124, in _arun
+    return await self.coroutine(*args, **kwargs)
+                 │    │          │       └ {'destination': '香港', 'query': '香港8月旅游 景点推荐 天气 注意事项'}
+                 │    │          └ ()
+                 │    └ <function query_destination_info at 0x7388ca6c7ec0>
+                 └ StructuredTool(name='query_destination_info', description='查询目的地详细信息（并行查询多个源）\n\n此工具会调用 Router，并行执行：\n1. 探索 Agent：从 RAG 系统检索景...
+
+  File "/app/app/tools/router_query.py", line 33, in query_destination_info
+    result = await router.ainvoke(
+                   │      └ <function Pregel.ainvoke at 0x7387eba30b80>
+                   └ <langgraph.graph.state.CompiledStateGraph object at 0x7387b43f29f0>
+
+  File "/app/.venv/lib/python3.12/site-packages/langgraph/pregel/main.py", line 3158, in ainvoke
+    async for chunk in self.astream(
+              │        │    └ <function Pregel.astream at 0x7387eba30a40>
+              │        └ <langgraph.graph.state.CompiledStateGraph object at 0x7387b43f29f0>
+              └ ('values', {'original_query': '香港8月旅游 景点推荐 天气 注意事项', 'destination': '香港', 'classifications': [{'agent': 'explore', 'query': '...
+  File "/app/.venv/lib/python3.12/site-packages/langgraph/pregel/main.py", line 2971, in astream
+    async for _ in runner.atick(
+              │    │      └ <function PregelRunner.atick at 0x7387eb956a20>
+              │    └ <langgraph.pregel._runner.PregelRunner object at 0x7387b2270f80>
+              └ None
+  File "/app/.venv/lib/python3.12/site-packages/langgraph/pregel/_runner.py", line 410, in atick
+    _panic_or_proceed(
+    └ <function _panic_or_proceed at 0x7387eb956c00>
+  File "/app/.venv/lib/python3.12/site-packages/langgraph/pregel/_runner.py", line 520, in _panic_or_proceed
+    raise exc
+          └ TypeError("'coroutine' object is not iterable")
+  File "/app/.venv/lib/python3.12/site-packages/langgraph/pregel/_retry.py", line 132, in arun_with_retry
+    async for _ in task.proc.astream(task.input, config):
+                   │    │            │    │      └ {'metadata': {'thread_id': '1c05b6a7-c8bb-419a-8c36-5ac98efe4a55', 'langgraph_step': 2, 'langgraph_node': 'weather', 'langgra...
+                   │    │            │    └ <member 'input' of 'PregelExecutableTask' objects>
+                   │    │            └ PregelExecutableTask(name='weather', input={'query': '香港8月天气', 'destination': '香港'}, proc=<langgraph._internal._runnable.Runn...
+                   │    └ <member 'proc' of 'PregelExecutableTask' objects>
+                   └ PregelExecutableTask(name='weather', input={'query': '香港8月天气', 'destination': '香港'}, proc=<langgraph._internal._runnable.Runn...
+  File "/app/.venv/lib/python3.12/site-packages/langgraph/_internal/_runnable.py", line 839, in astream
+    output = await asyncio.create_task(
+                   │       └ <function create_task at 0x7388d155e5c0>
+                   └ <module 'asyncio' from '/usr/local/lib/python3.12/asyncio/__init__.py'>
+  File "/app/.venv/lib/python3.12/site-packages/langgraph/_internal/_runnable.py", line 904, in _consume_aiter
+    async for chunk in it:
+                       └ <async_generator object _AstreamEventsCallbackHandler.tap_output_aiter at 0x7387b4348890>
+  File "/app/.venv/lib/python3.12/site-packages/langchain_core/tracers/event_stream.py", line 199, in tap_output_aiter
+    first = await anext(output, sentinel)
+                        │       └ <object object at 0x7387b4e11120>
+                        └ <async_generator object Runnable.atransform at 0x7387b2179140>
+  File "/app/.venv/lib/python3.12/site-packages/langchain_core/runnables/base.py", line 1589, in atransform
+    async for ichunk in input:
+                        └ <async_generator object Runnable.astream at 0x7387b221bb50>
+  File "/app/.venv/lib/python3.12/site-packages/langchain_core/runnables/base.py", line 1170, in astream
+    yield await self.ainvoke(input, config, **kwargs)
+                │    │       │      │         └ {}
+                │    │       │      └ {'metadata': {'thread_id': '1c05b6a7-c8bb-419a-8c36-5ac98efe4a55', 'langgraph_step': 2, 'langgraph_node': 'weather', 'langgra...
+                │    │       └ {'query': '香港8月天气', 'destination': '香港'}
+                │    └ <function RunnableCallable.ainvoke at 0x7387ec1a0e00>
+                └ weather(tags=None, recurse=True, explode_args=False, func_accepts={})
+  File "/app/.venv/lib/python3.12/site-packages/langgraph/_internal/_runnable.py", line 473, in ainvoke
+    ret = await self.afunc(*args, **kwargs)
+                │    │      │       └ {}
+                │    │      └ ({'query': '香港8月天气', 'destination': '香港'},)
+                │    └ <function weather_agent_node at 0x7387b4ac3f60>
+                └ weather(tags=None, recurse=True, explode_args=False, func_accepts={})
+
+  File "/app/app/agents/routers/destination_router.py", line 297, in weather_agent_node
+    _weather_agent = _create_weather_agent()
+                     └ <function _create_weather_agent at 0x7387b4ac3ec0>
+
+  File "/app/app/agents/routers/destination_router.py", line 253, in _create_weather_agent
+    agent = create_agent(
+            └ <function create_agent at 0x7387b4ac3a60>
+
+  File "/app/.venv/lib/python3.12/site-packages/langchain/agents/factory.py", line 767, in create_agent
+    built_in_tools = [t for t in tools if isinstance(t, dict)]
+                                 └ <coroutine object get_weather_tools at 0x7387b2220c40>
+
+TypeError: 'coroutine' object is not iterable
+During task with name 'weather' and id '0b176af9-e03d-0197-0c15-f01b2880f59c'
+During task with name 'tools' and id 'bcad2b0e-9891-3b13-f071-c39fec92ccfd'

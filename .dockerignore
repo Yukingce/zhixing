@@ -1,0 +1,14 @@
+.git
+.gitignore
+.env
+.venv
+__pycache__
+*.pyc
+.pytest_cache
+.claude
+tests
+logs
+docker-data
+data/vectorstore
+app/mcp_core/12306-mcp/node_modules
+docs
