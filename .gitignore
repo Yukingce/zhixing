@@ -9,9 +9,9 @@ wheels/
 # Virtual environments
 .venv
 .claude
+.codex
 .pytest_cache
 .env
-
 
 docs
 docker-data/

@@ -685,3 +685,376 @@ Traceback (most recent call last):
 TypeError: 'coroutine' object is not iterable
 During task with name 'weather' and id '0b176af9-e03d-0197-0c15-f01b2880f59c'
 During task with name 'tools' and id 'bcad2b0e-9891-3b13-f071-c39fec92ccfd'
+2026-08-16 18:29:24.867 | ERROR    | app.core.checkpointer:initialize:125 - ❌ Checkpointer 初始化失败: couldn't get a connection after 30.00 sec
+2026-08-16 21:00:39.797 | ERROR    | app.api.v1.chat:generate_sse_stream:125 - ❌ SSE 流式对话错误
+Traceback (most recent call last):
+
+  File "<string>", line 1, in <module>
+    from multiprocessing.spawn import spawn_main; spawn_main(parent_pid=28416, pipe_handle=852)
+  File "D:\python313\Lib\multiprocessing\spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+  File "D:\python313\Lib\multiprocessing\spawn.py", line 135, in _main
+    return self._bootstrap(parent_sentinel)
+  File "D:\python313\Lib\multiprocessing\process.py", line 313, in _bootstrap
+    self.run()
+  File "D:\python313\Lib\multiprocessing\process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\uvicorn\_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\uvicorn\server.py", line 77, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+  File "D:\python313\Lib\asyncio\runners.py", line 195, in run
+    return runner.run(main)
+  File "D:\python313\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+  File "D:\python313\Lib\asyncio\base_events.py", line 712, in run_until_complete
+    self.run_forever()
+  File "D:\python313\Lib\asyncio\base_events.py", line 683, in run_forever
+    self._run_once()
+  File "D:\python313\Lib\asyncio\base_events.py", line 2040, in _run_once
+    handle._run()
+  File "D:\python313\Lib\asyncio\events.py", line 89, in _run
+    self._context.run(self._callback, *self._args)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\anyio\_core\_tasks.py", line 275, in _run_coro
+    retval = await self._coro
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\starlette\responses.py", line 273, in wrap
+    await func()
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\starlette\responses.py", line 253, in stream_response
+    async for chunk in self.body_iterator:
+
+> File "F:\Projects_code\zhixing\app\api\v1\chat.py", line 77, in generate_sse_stream
+    async for event in agent.astream_events(
+
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 1516, in astream_events
+    async for event in event_stream:
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langchain_core\tracers\event_stream.py", line 1100, in _astream_events_implementation_v2
+    await task
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langchain_core\tracers\event_stream.py", line 1055, in consume_astream
+    async for _ in event_streamer.tap_output_aiter(run_id, stream):
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langchain_core\tracers\event_stream.py", line 222, in tap_output_aiter
+    async for chunk in output:
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langgraph\pregel\main.py", line 2971, in astream
+    async for _ in runner.atick(
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langgraph\pregel\_runner.py", line 304, in atick
+    await arun_with_retry(
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langgraph\pregel\_retry.py", line 132, in arun_with_retry
+    async for _ in task.proc.astream(task.input, config):
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langgraph\_internal\_runnable.py", line 839, in astream
+    output = await asyncio.create_task(
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langgraph\_internal\_runnable.py", line 904, in _consume_aiter
+    async for chunk in it:
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langchain_core\tracers\event_stream.py", line 199, in tap_output_aiter
+    first = await anext(output, sentinel)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 1589, in atransform
+    async for ichunk in input:
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 1589, in atransform
+    async for ichunk in input:
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 1170, in astream
+    yield await self.ainvoke(input, config, **kwargs)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langgraph\_internal\_runnable.py", line 473, in ainvoke
+    ret = await self.afunc(*args, **kwargs)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langgraph\prebuilt\tool_node.py", line 832, in _afunc
+    outputs = await asyncio.gather(*coros)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langgraph\prebuilt\tool_node.py", line 1163, in _arun_one
+    return await self._execute_tool_async(tool_request, input_type, config)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langgraph\prebuilt\tool_node.py", line 1112, in _execute_tool_async
+    content = _handle_tool_error(e, flag=self._handle_tool_errors)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langgraph\prebuilt\tool_node.py", line 424, in _handle_tool_error
+    content = flag(e)  # type: ignore [assignment, call-arg]
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langgraph\prebuilt\tool_node.py", line 381, in _default_handle_tool_errors
+    raise e
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langgraph\prebuilt\tool_node.py", line 1069, in _execute_tool_async
+    response = await tool.ainvoke(call_args, config)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langchain_core\tools\structured.py", line 70, in ainvoke
+    return await super().ainvoke(input, config, **kwargs)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langchain_core\tools\base.py", line 652, in ainvoke
+    return await self.arun(tool_input, **kwargs)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langchain_core\tools\base.py", line 1131, in arun
+    raise error_to_raise
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langchain_core\tools\base.py", line 1097, in arun
+    response = await coro_with_context(coro, context)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langchain_core\tools\structured.py", line 124, in _arun
+    return await self.coroutine(*args, **kwargs)
+
+  File "F:\Projects_code\zhixing\app\tools\router_query.py", line 33, in query_destination_info
+    result = await router.ainvoke(
+
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langgraph\pregel\main.py", line 3158, in ainvoke
+    async for chunk in self.astream(
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langgraph\pregel\main.py", line 2971, in astream
+    async for _ in runner.atick(
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langgraph\pregel\_runner.py", line 410, in atick
+    _panic_or_proceed(
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langgraph\pregel\_runner.py", line 520, in _panic_or_proceed
+    raise exc
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langgraph\pregel\_retry.py", line 132, in arun_with_retry
+    async for _ in task.proc.astream(task.input, config):
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langgraph\_internal\_runnable.py", line 839, in astream
+    output = await asyncio.create_task(
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langgraph\_internal\_runnable.py", line 904, in _consume_aiter
+    async for chunk in it:
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langchain_core\tracers\event_stream.py", line 199, in tap_output_aiter
+    first = await anext(output, sentinel)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 1589, in atransform
+    async for ichunk in input:
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 1170, in astream
+    yield await self.ainvoke(input, config, **kwargs)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\langgraph\_internal\_runnable.py", line 473, in ainvoke
+    ret = await self.afunc(*args, **kwargs)
+
+  File "F:\Projects_code\zhixing\app\agents\routers\destination_router.py", line 259, in explore_agent_node
+    response = await _explore_agent.ainvoke({
+
+AttributeError: 'coroutine' object has no attribute 'ainvoke'
+During task with name 'explore' and id 'c8ea4da8-24fa-7528-c7b7-db7b836d2eb3'
+During task with name 'tools' and id '78c70479-5227-8309-71ca-d293aac1d175'
+2026-08-16 23:05:02.589 | ERROR    | app.api.v1.chat:generate_sse_stream:133 - ❌ SSE 流式对话错误
+Traceback (most recent call last):
+
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\pytest\__main__.py", line 9, in <module>
+    raise SystemExit(pytest.console_main())
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\_pytest\config\__init__.py", line 223, in console_main
+    code = main()
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\_pytest\config\__init__.py", line 199, in main
+    ret: ExitCode | int = config.hook.pytest_cmdline_main(config=config)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\pluggy\_hooks.py", line 512, in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\pluggy\_manager.py", line 120, in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\pluggy\_callers.py", line 121, in _multicall
+    res = hook_impl.function(*args)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\_pytest\main.py", line 365, in pytest_cmdline_main
+    return wrap_session(config, _main)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\_pytest\main.py", line 318, in wrap_session
+    session.exitstatus = doit(config, session) or 0
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\_pytest\main.py", line 372, in _main
+    config.hook.pytest_runtestloop(session=session)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\pluggy\_hooks.py", line 512, in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\pluggy\_manager.py", line 120, in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\pluggy\_callers.py", line 121, in _multicall
+    res = hook_impl.function(*args)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\_pytest\main.py", line 396, in pytest_runtestloop
+    item.config.hook.pytest_runtest_protocol(item=item, nextitem=nextitem)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\pluggy\_hooks.py", line 512, in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\pluggy\_manager.py", line 120, in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\pluggy\_callers.py", line 121, in _multicall
+    res = hook_impl.function(*args)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\_pytest\runner.py", line 118, in pytest_runtest_protocol
+    runtestprotocol(item, nextitem=nextitem)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\_pytest\runner.py", line 137, in runtestprotocol
+    reports.append(call_and_report(item, "call", log))
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\_pytest\runner.py", line 244, in call_and_report
+    call = CallInfo.from_call(
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\_pytest\runner.py", line 353, in from_call
+    result: TResult | None = func()
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\_pytest\runner.py", line 245, in <lambda>
+    lambda: runtest_hook(item=item, **kwds),
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\pluggy\_hooks.py", line 512, in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\pluggy\_manager.py", line 120, in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\pluggy\_callers.py", line 121, in _multicall
+    res = hook_impl.function(*args)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\_pytest\runner.py", line 179, in pytest_runtest_call
+    item.runtest()
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\pytest_asyncio\plugin.py", line 469, in runtest
+    super().runtest()
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\_pytest\python.py", line 1720, in runtest
+    self.ihook.pytest_pyfunc_call(pyfuncitem=self)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\pluggy\_hooks.py", line 512, in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\pluggy\_manager.py", line 120, in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\pluggy\_callers.py", line 121, in _multicall
+    res = hook_impl.function(*args)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\_pytest\python.py", line 166, in pytest_pyfunc_call
+    result = testfunction(**testargs)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\pytest_asyncio\plugin.py", line 716, in inner
+    runner.run(coro, context=context)
+  File "D:\python313\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+  File "D:\python313\Lib\asyncio\base_events.py", line 712, in run_until_complete
+    self.run_forever()
+  File "D:\python313\Lib\asyncio\base_events.py", line 683, in run_forever
+    self._run_once()
+  File "D:\python313\Lib\asyncio\base_events.py", line 2040, in _run_once
+    handle._run()
+  File "D:\python313\Lib\asyncio\events.py", line 89, in _run
+    self._context.run(self._callback, *self._args)
+
+  File "F:\Projects_code\zhixing\tests\test_chat_stream.py", line 81, in test_stream_reports_missing_final_ai_message
+    frames = [
+
+> File "F:\Projects_code\zhixing\app\api\v1\chat.py", line 110, in generate_sse_stream
+    raise RuntimeError("Agent 未返回有效的最终回复")
+
+RuntimeError: Agent 未返回有效的最终回复
+2026-08-16 23:05:35.073 | ERROR    | app.api.v1.chat:generate_sse_stream:133 - ❌ SSE 流式对话错误
+Traceback (most recent call last):
+
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\pytest\__main__.py", line 9, in <module>
+    raise SystemExit(pytest.console_main())
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\_pytest\config\__init__.py", line 223, in console_main
+    code = main()
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\_pytest\config\__init__.py", line 199, in main
+    ret: ExitCode | int = config.hook.pytest_cmdline_main(config=config)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\pluggy\_hooks.py", line 512, in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\pluggy\_manager.py", line 120, in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\pluggy\_callers.py", line 121, in _multicall
+    res = hook_impl.function(*args)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\_pytest\main.py", line 365, in pytest_cmdline_main
+    return wrap_session(config, _main)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\_pytest\main.py", line 318, in wrap_session
+    session.exitstatus = doit(config, session) or 0
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\_pytest\main.py", line 372, in _main
+    config.hook.pytest_runtestloop(session=session)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\pluggy\_hooks.py", line 512, in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\pluggy\_manager.py", line 120, in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\pluggy\_callers.py", line 121, in _multicall
+    res = hook_impl.function(*args)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\_pytest\main.py", line 396, in pytest_runtestloop
+    item.config.hook.pytest_runtest_protocol(item=item, nextitem=nextitem)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\pluggy\_hooks.py", line 512, in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\pluggy\_manager.py", line 120, in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\pluggy\_callers.py", line 121, in _multicall
+    res = hook_impl.function(*args)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\_pytest\runner.py", line 118, in pytest_runtest_protocol
+    runtestprotocol(item, nextitem=nextitem)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\_pytest\runner.py", line 137, in runtestprotocol
+    reports.append(call_and_report(item, "call", log))
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\_pytest\runner.py", line 244, in call_and_report
+    call = CallInfo.from_call(
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\_pytest\runner.py", line 353, in from_call
+    result: TResult | None = func()
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\_pytest\runner.py", line 245, in <lambda>
+    lambda: runtest_hook(item=item, **kwds),
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\pluggy\_hooks.py", line 512, in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\pluggy\_manager.py", line 120, in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\pluggy\_callers.py", line 121, in _multicall
+    res = hook_impl.function(*args)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\_pytest\runner.py", line 179, in pytest_runtest_call
+    item.runtest()
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\pytest_asyncio\plugin.py", line 469, in runtest
+    super().runtest()
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\_pytest\python.py", line 1720, in runtest
+    self.ihook.pytest_pyfunc_call(pyfuncitem=self)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\pluggy\_hooks.py", line 512, in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\pluggy\_manager.py", line 120, in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\pluggy\_callers.py", line 121, in _multicall
+    res = hook_impl.function(*args)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\_pytest\python.py", line 166, in pytest_pyfunc_call
+    result = testfunction(**testargs)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\pytest_asyncio\plugin.py", line 716, in inner
+    runner.run(coro, context=context)
+  File "D:\python313\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+  File "D:\python313\Lib\asyncio\base_events.py", line 712, in run_until_complete
+    self.run_forever()
+  File "D:\python313\Lib\asyncio\base_events.py", line 683, in run_forever
+    self._run_once()
+  File "D:\python313\Lib\asyncio\base_events.py", line 2040, in _run_once
+    handle._run()
+  File "D:\python313\Lib\asyncio\events.py", line 89, in _run
+    self._context.run(self._callback, *self._args)
+
+  File "F:\Projects_code\zhixing\tests\test_chat_stream.py", line 81, in test_stream_reports_missing_final_ai_message
+    frames = [
+
+> File "F:\Projects_code\zhixing\app\api\v1\chat.py", line 110, in generate_sse_stream
+    raise RuntimeError("Agent 未返回有效的最终回复")
+
+RuntimeError: Agent 未返回有效的最终回复
+2026-08-16 23:05:35.089 | ERROR    | app.observability.langsmith:flush_langsmith_traces:77 - LangSmith Trace 刷新失败
+Traceback (most recent call last):
+
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\pytest\__main__.py", line 9, in <module>
+    raise SystemExit(pytest.console_main())
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\_pytest\config\__init__.py", line 223, in console_main
+    code = main()
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\_pytest\config\__init__.py", line 199, in main
+    ret: ExitCode | int = config.hook.pytest_cmdline_main(config=config)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\pluggy\_hooks.py", line 512, in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\pluggy\_manager.py", line 120, in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\pluggy\_callers.py", line 121, in _multicall
+    res = hook_impl.function(*args)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\_pytest\main.py", line 365, in pytest_cmdline_main
+    return wrap_session(config, _main)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\_pytest\main.py", line 318, in wrap_session
+    session.exitstatus = doit(config, session) or 0
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\_pytest\main.py", line 372, in _main
+    config.hook.pytest_runtestloop(session=session)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\pluggy\_hooks.py", line 512, in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\pluggy\_manager.py", line 120, in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\pluggy\_callers.py", line 121, in _multicall
+    res = hook_impl.function(*args)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\_pytest\main.py", line 396, in pytest_runtestloop
+    item.config.hook.pytest_runtest_protocol(item=item, nextitem=nextitem)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\pluggy\_hooks.py", line 512, in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\pluggy\_manager.py", line 120, in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\pluggy\_callers.py", line 121, in _multicall
+    res = hook_impl.function(*args)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\_pytest\runner.py", line 118, in pytest_runtest_protocol
+    runtestprotocol(item, nextitem=nextitem)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\_pytest\runner.py", line 137, in runtestprotocol
+    reports.append(call_and_report(item, "call", log))
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\_pytest\runner.py", line 244, in call_and_report
+    call = CallInfo.from_call(
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\_pytest\runner.py", line 353, in from_call
+    result: TResult | None = func()
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\_pytest\runner.py", line 245, in <lambda>
+    lambda: runtest_hook(item=item, **kwds),
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\pluggy\_hooks.py", line 512, in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\pluggy\_manager.py", line 120, in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\pluggy\_callers.py", line 121, in _multicall
+    res = hook_impl.function(*args)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\_pytest\runner.py", line 179, in pytest_runtest_call
+    item.runtest()
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\_pytest\python.py", line 1720, in runtest
+    self.ihook.pytest_pyfunc_call(pyfuncitem=self)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\pluggy\_hooks.py", line 512, in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\pluggy\_manager.py", line 120, in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\pluggy\_callers.py", line 121, in _multicall
+    res = hook_impl.function(*args)
+  File "F:\Projects_code\zhixing\.venv\Lib\site-packages\_pytest\python.py", line 166, in pytest_pyfunc_call
+    result = testfunction(**testargs)
+
+  File "F:\Projects_code\zhixing\tests\test_langsmith_observability.py", line 80, in test_flush_failure_does_not_block_shutdown
+    langsmith_observability.flush_langsmith_traces()
+
+> File "F:\Projects_code\zhixing\app\observability\langsmith.py", line 74, in flush_langsmith_traces
+    wait_for_all_tracers()
+
+  File "F:\Projects_code\zhixing\tests\test_langsmith_observability.py", line 71, in fail_flush
+    raise RuntimeError("upload failed")
+
+RuntimeError: upload failed

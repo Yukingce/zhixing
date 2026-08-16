@@ -6,6 +6,11 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.config import settings
+from app.observability.langsmith import (
+    configure_langsmith,
+    flush_langsmith_traces,
+    log_langsmith_status,
+)
 from app.utils.logger import app_logger
 from app.api.v1 import conversation, chat, users
 
@@ -31,28 +36,34 @@ async def lifespan(app: FastAPI):
     from app.core.store import store_lifespan
 
     app_logger.info("🚀 启动应用...")
+    configure_langsmith()
+    log_langsmith_status()
 
-    async with checkpointer_lifespan():
-        app_logger.info("✅ Checkpointer 已就绪")
+    try:
+        async with checkpointer_lifespan():
+            app_logger.info("✅ Checkpointer 已就绪")
 
-        # 2. 启动 Store (在这里加入)
-        async with store_lifespan():
-            app_logger.info("✅ Store 已就绪")
+            # 2. 启动 Store (在这里加入)
+            async with store_lifespan():
+                app_logger.info("✅ Store 已就绪")
 
-            # 3. 初始化 MCP
-            mcp = await MCPClientManager.get_instance()
-            app_logger.info("✅ MCP 服务初始化成功")
+                # 3. 初始化 MCP
+                mcp = await MCPClientManager.get_instance()
+                app_logger.info("✅ MCP 服务初始化成功")
 
-            yield
+                yield
 
-            # --- 关闭流程 (自动按相反顺序执行 context manager 的 exit，这里手动关闭 MCP) ---
+                # --- 关闭流程 (自动按相反顺序执行 context manager 的 exit，这里手动关闭 MCP) ---
 
-            await mcp.close()
-            app_logger.info("MCP 服务已关闭")
+                await mcp.close()
+                app_logger.info("MCP 服务已关闭")
 
-        # store_lifespan 的 exit 会在这里自动执行
+            # store_lifespan 的 exit 会在这里自动执行
 
-    # checkpointer_lifespan 的 exit 会在这里自动执行
+        # checkpointer_lifespan 的 exit 会在这里自动执行
+    finally:
+        # LangSmith 在后台批量上传 Trace；退出前等待缓冲区提交完成。
+        await asyncio.to_thread(flush_langsmith_traces)
 
     app_logger.info("应用已关闭")
 

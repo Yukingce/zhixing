@@ -86,7 +86,8 @@ RERANK_MODEL=qwen-turbo
 # LangSmith；当前配置模型要求这些字段存在
 LANGSMITH_API_KEY=your_langsmith_api_key
 LANGSMITH_PROJECT=zhixing
-LANGSMITH_TRACING=false
+LANGSMITH_TRACING=true
+LANGSMITH_TRACING_SAMPLING_RATE=1.0
 LANGSMITH_ENDPOINT=https://api.smith.langchain.com
 
 # Docker Compose 内部服务名，不要改成 localhost

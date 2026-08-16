@@ -37,6 +37,12 @@ class Settings(BaseSettings):
     langsmith_api_key: str = Field(alias="LANGSMITH_API_KEY")
     langsmith_project: str = Field(default="travel-planner-dev", alias="LANGSMITH_PROJECT")
     langsmith_tracing: bool = Field(default=True, alias="LANGSMITH_TRACING")
+    langsmith_sampling_rate: float = Field(
+        default=1.0,
+        ge=0.0,
+        le=1.0,
+        alias="LANGSMITH_TRACING_SAMPLING_RATE",
+    )
     langsmith_endpoint: str = Field(
         default="https://api.smith.langchain.com",
         alias="LANGSMITH_ENDPOINT"

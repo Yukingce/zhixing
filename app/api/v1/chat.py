@@ -7,7 +7,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.responses import StreamingResponse #流式返回
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
-from langchain_core.messages import HumanMessage, AIMessage, AIMessageChunk
+from langchain_core.messages import HumanMessage, AIMessage
 from app.models.base import get_db
 from app.models.user import User
 from app.models.conversation import Conversation
@@ -15,9 +15,12 @@ from app.models.message import Message
 from app.schemas.message import MessageCreate
 from app.api.dependencies import get_current_user
 from app.agents.handoffs.travel_agent import create_travel_agent
+from app.observability.langsmith import build_agent_trace_config
 from app.utils.logger import app_logger
 
 router = APIRouter(prefix="/chat", tags=["对话"])
+
+HEARTBEAT_INTERVAL_SECONDS = 15
 
 
 async def save_message(
@@ -57,6 +60,7 @@ async def generate_sse_stream(
         user: User
 ):
     assistant_message = ""
+    agent_task = None
 
     try:
         # 1. 保存用户消息
@@ -72,46 +76,47 @@ async def generate_sse_stream(
             "user_id": str(user.id),
         }
 
-        # 4. 使用 astream_events 获取更细粒度的流式输出
-        async for event in agent.astream_events(
+        # 4. 完整执行顶层 Agent，不再转发嵌套 Agent 的模型 token。
+        # 等待期间发送不含 content 的心跳，防止长耗时查询导致 SSE 连接空闲超时。
+        agent_task = asyncio.create_task(
+            agent.ainvoke(
                 input_data,
-                config={
-                    "configurable": {
-                        "thread_id": conversation_id
-                    }
-                },
-                version="v2"
-        ):
-            kind = event.get("event")
+                config=build_agent_trace_config(conversation_id),
+            )
+        )
 
-            # 捕获 LLM 流式输出（只转发主 Agent 模型的 token，
-            # 过滤掉 RAG 重排序器/查询优化器等内部模型调用，避免把内部 JSON 泄漏给前端）
-            if kind == "on_chat_model_stream":
-                # 主 Agent 模型运行在 LangGraph 的 "model" 节点；
-                # 工具内部调用的模型（RAG 重排序器等）metadata 里 langgraph_node 不是 "model"，
-                # 据此区分。注意：不能依赖 tags，create_agent 会把模型配置的
-                # with_config(tags=[...]) 覆盖成 seq:step:N。
-                metadata = event.get("metadata") or {}
-                if metadata.get("langgraph_node") != "model":
-                    continue
-                chunk = event.get("data", {}).get("chunk")
-                if chunk and hasattr(chunk, "content") and chunk.content:
-                    token = chunk.content
-                    assistant_message += token
-                    yield sse({
-                        "type": "token",
-                        "content": token,
-                    })
+        while not agent_task.done():
+            done, _ = await asyncio.wait(
+                {agent_task},
+                timeout=HEARTBEAT_INTERVAL_SECONDS,
+            )
+            if not done:
+                yield sse({"type": "heartbeat"})
 
-            # 或者捕获工具调用信息
-            elif kind == "on_tool_start":
-                tool_name = event.get("name", "")
-                yield sse({
-                    "type": "tool_call",
-                    "tool": tool_name,
-                })
+        result = await agent_task
+        messages = result.get("messages", [])
+        final_message = next(
+            (
+                message
+                for message in reversed(messages)
+                if isinstance(message, AIMessage)
+                and message.content
+                and not getattr(message, "tool_calls", None)
+            ),
+            None,
+        )
 
-            await asyncio.sleep(0)
+        if final_message is None:
+            raise RuntimeError("Agent 未返回有效的最终回复")
+
+        if not isinstance(final_message.content, str):
+            raise RuntimeError("Agent 最终回复不是文本内容")
+
+        assistant_message = final_message.content
+        yield sse({
+            "type": "token",
+            "content": assistant_message,
+        })
 
         # 5. 保存 AI 回复
         if assistant_message.strip():
@@ -130,6 +135,13 @@ async def generate_sse_stream(
             "type": "error",
             "message": str(e),
         })
+    finally:
+        if agent_task is not None and not agent_task.done():
+            agent_task.cancel()
+            try:
+                await agent_task
+            except asyncio.CancelledError:
+                pass
 
 
 

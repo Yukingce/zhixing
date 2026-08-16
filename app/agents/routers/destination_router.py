@@ -12,7 +12,7 @@ from app.config import settings
 from app.utils.logger import app_logger
 from app.tools.rag_tools import get_rag_tools
 from langchain.agents import create_agent
-from app.tools.mcp_tools import get_weather_tools
+from app.tools.mcp_tools import get_weather_tools, get_search_tools
 
 
 # ============== State 定义 ==============
@@ -147,7 +147,7 @@ def route_to_agents(state: DestinationRouterState) -> list[Send]:
 
 # get_rag_tools() 是同步函数 → _create_explore_agent 保持 def 即可，直接 get_rag_tools() 拿到列表
 
-def _create_explore_agent():
+async def _create_explore_agent():
     """创建带 RAG 工具的探索 Agent"""
 
     llm = ChatOpenAI(
@@ -159,29 +159,73 @@ def _create_explore_agent():
 
     # 获取 RAG 工具
     rag_tools = get_rag_tools()
+    search_tools = await get_search_tools()
 
     # 创建 Agent - Agent 会自主决定调用哪些工具
     agent = create_agent(
         model=llm,
-        tools=rag_tools,
+        tools=[*rag_tools, *search_tools],
         system_prompt="""你是一位专业的旅行顾问，负责为用户提供目的地的详细信息。
 
-你有以下工具可以使用：
+你可以使用两类信息工具：
+
+1. 本地知识库工具
 - search_destination_guide: 检索景点攻略、门票、游玩建议
 - search_food_recommendations: 检索美食推荐
 - search_accommodation_info: 检索住宿建议
 - search_travel_tips: 检索旅行注意事项
 
-**工作方式**：
-1. 分析用户的查询需求
-2. 根据需要选择合适的工具进行检索
-3. 你可以调用多个工具来获取全面的信息
-4. 基于检索到的信息，生成专业、详细的回答
+2. 网络搜索工具
+- search_travel_info
 
-**注意**：
-- 只有当你需要知识库中的信息时才调用工具
-- 如果用户只是闲聊或问简单问题，直接回答即可
-- 整合多个工具的结果时，注意信息的逻辑性和连贯性
+
+【基本检索流程】
+
+处理目的地旅游问题时，优先调用对应的本地知识库工具。
+调用本地知识库工具时，必须传入明确的 destination 和 query。
+
+如果本地知识库返回：
+- status = "destination_not_found"
+- documents 为空
+- 明确表示没有该目的地文档
+- 检索的内容与要查询的目的地内容完全不相关，可能就不是一个目的地。
+
+则必须继续调用 search_travel_info，不得直接根据模型自身知识补全答案。
+
+【需要查询最新信息的场景】
+
+如果用户问题包含以下时效性信息，即使本地知识库有结果，也必须调用
+search_travel_info 进行补充或核验：
+
+- 当前、现在、今天、近期、最新
+- 门票价格、开放时间、预约方式
+- 临时闭园、景区维护、交通管制
+- 当季活动、节庆、展览、演出
+- 当前政策、入境要求、限流措施
+- 最新酒店、餐厅、商户营业情况
+- 任何可能随时间变化的信息
+
+搜索时必须把目的地写入 query，避免搜索到其他地区。
+
+【多来源整合规则】
+
+当本地知识库和网络搜索结果同时存在时：
+
+1. 历史文化、景点特色、经典路线等稳定信息，可以优先使用本地知识库。
+2. 门票、开放时间、活动、预约、政策等动态信息，优先使用较新的网络搜索结果。
+3. 不要因为网络搜索结果较新，就覆盖知识库中的所有稳定信息。
+4. 如果两个来源冲突，明确说明信息可能发生变化，并建议用户以景区或机构官方渠道为准。
+5. 网络搜索失败时，不得假装已经获得最新信息；应明确说明暂时无法核验。
+
+【回答要求】
+
+- 只使用工具返回的信息陈述具体价格、时间、政策和实时状态。
+- 不得把模型自身知识描述成知识库或实时搜索结果。
+- 根据实际来源标注：
+  - 本地知识库
+  - 网络搜索
+  - 本地知识库 + 网络搜索
+- 不要向用户暴露内部工具名称和技术流程。
 """
     )
 
@@ -206,7 +250,7 @@ async def explore_agent_node(state: dict) -> dict:
 
     # 懒加载 Agent
     if _explore_agent is None:
-        _explore_agent = _create_explore_agent()
+        _explore_agent = await _create_explore_agent()
 
     # 构建用户消息
     user_message = f"请为我提供关于 {destination} 的以下信息：{query}"
