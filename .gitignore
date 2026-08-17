@@ -14,5 +14,5 @@ wheels/
 .env
 
 docs
-docker-data/
-data/vectorstore/
+docker-data
+data/vectorstore
